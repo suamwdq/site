@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>필독사항</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #ecf8f8;
+    --sub: #b2967d;
+    --white: #fff;
+    --black: #111;
+    --gray1: #e8e8e8;
+    --gray2: #999;
+    --gray3: #555;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    overflow-x: hidden;
+    font-weight: 300;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 4rem;
+    height: 60px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--gray1);
+  }
+  .logo {
+    font-weight: 900; font-size: 1rem;
+    color: var(--black); text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+  .logo span { color: var(--sub); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gray2); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--black); }
+
+  /* HERO */
+  #hero {
+    min-height: 60vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 9rem 4rem 5rem;
+    border-bottom: 1px solid var(--gray1);
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gray2); margin-bottom: 2rem;
+    animation: up 0.6s ease both;
+  }
+  .hero-title {
+    font-weight: 900;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 0.95; letter-spacing: -0.03em;
+    animation: up 0.6s 0.08s ease both;
+  }
+  .hero-title .muted { color: var(--gray1); }
+  .hero-sub {
+    margin-top: 2rem;
+    font-size: 0.88rem; line-height: 1.85; color: var(--gray3);
+    max-width: 380px;
+    animation: up 0.6s 0.16s ease both;
+  }
+
+  /* ACCORDION SECTION */
+  .acc-section {
+    border-bottom: 1px solid var(--gray1);
+  }
+  .acc-section:nth-of-type(even) { background: var(--accent); }
+  .acc-section:nth-of-type(odd)  { background: var(--white); }
+
+  .acc-header {
+    padding: 2.5rem 4rem;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .acc-label {
+    font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--gray2); margin-bottom: 0.5rem;
+  }
+  .acc-title {
+    font-weight: 900;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    letter-spacing: -0.02em;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem;
+  }
+  .acc-title .title-text span { color: var(--sub); }
+  .acc-arrow {
+    font-size: 0.9rem; color: var(--gray2); font-weight: 400;
+    transition: transform 0.3s ease; flex-shrink: 0;
+  }
+  .acc-section.open .acc-arrow { transform: rotate(180deg); }
+
+  .acc-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .acc-section.open .acc-body { max-height: 1000px; }
+
+  .acc-inner {
+    padding: 0 4rem 2.5rem;
+  }
+
+  /* RULE LIST */
+  .rule-list { display: flex; flex-direction: column; }
+  .rule-row {
+    display: grid; grid-template-columns: 3rem 1fr;
+    gap: 2rem; padding: 1.5rem 0;
+    border-bottom: 1px solid var(--gray1);
+    align-items: start;
+  }
+  .rule-row:first-child { border-top: 1px solid var(--gray1); }
+  .rule-num {
+    font-weight: 900; font-size: 0.65rem;
+    color: var(--gray2); padding-top: 0.15rem;
+  }
+  .rule-name {
+    font-weight: 700; font-size: 0.9rem;
+    color: var(--black); margin-bottom: 0.35rem;
+    display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+  }
+  .rule-desc {
+    font-size: 0.81rem; color: var(--gray3); line-height: 1.75;
+  }
+  .rule-desc strong { color: var(--black); font-weight: 700; }
+
+  .warn-tag {
+    display: inline-block; font-size: 0.58rem; font-weight: 700;
+    color: #cc4444; border: 1px solid #cc4444;
+    padding: 2px 6px; border-radius: 2px; letter-spacing: 0.05em;
+  }
+
+  .highlight-row {
+    display: grid; grid-template-columns: 3rem 1fr;
+    gap: 2rem; padding: 1.2rem 0; align-items: start;
+  }
+  .highlight-body {
+    background: var(--white);
+    border-left: 2px solid var(--sub);
+    padding: 0.8rem 1.1rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .highlight-body .rule-name { color: var(--sub); }
+
+  /* FOOTER */
+  footer {
+    background: #0a0a0a; color: #444;
+    padding: 1.2rem 4rem;
+    display: flex; justify-content: space-between;
+    font-size: 0.68rem; letter-spacing: 0.06em;
+  }
+
+  /* ANIM */
+  @keyframes up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .fade { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .fade.on { opacity: 1; transform: none; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 0 1.2rem; }
+    .nav-links { display: none; }
+    #hero { padding: 7rem 1.2rem 3rem; min-height: auto; }
+    .hero-title { font-size: clamp(2.2rem, 11vw, 3rem); line-height: 1; }
+    .hero-sub { max-width: 100%; font-size: 0.82rem; }
+    .acc-header { padding: 1.8rem 1.2rem; }
+    .acc-inner { padding: 0 1.2rem 2rem; }
+    .acc-title { font-size: clamp(1.3rem, 6vw, 1.6rem); }
+    .rule-row { grid-template-columns: 2rem 1fr; gap: 0.8rem; padding: 1.1rem 0; }
+    .highlight-row { grid-template-columns: 2rem 1fr; gap: 0.8rem; }
+    .rule-name { font-size: 0.84rem; }
+    .rule-desc { font-size: 0.78rem; }
+    footer { padding: 1rem 1.2rem; flex-direction: column; gap: 0.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">STORE<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#refund">교체·환불</a></li>
+    <li><a href="#account">계정</a></li>
+    <li><a href="#charge">충전</a></li>
+    <li><a href="#inquiry">문의</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-eyebrow">Important Notice · 필독사항</div>
+  <h1 class="hero-title">
+    이용 전<br>
+    <span class="muted">반드시</span><br>
+    확인하세요
+  </h1>
+  <p class="hero-sub">교환·환불·충전·문의 관련 규정을 미리 숙지하시면 원활한 서비스 이용에 도움이 됩니다.</p>
+</section>
+
+<!-- 교체 / 환불 -->
+<div id="refund" class="acc-section fade">
+  <div class="acc-header" onclick="toggle('refund')">
+    <div class="acc-label">Refund &amp; Exchange</div>
+    <div class="acc-title">
+      <span class="title-text">교체 / <span>환불</span> 관련</span>
+      <span class="acc-arrow">▼</span>
+    </div>
+  </div>
+  <div class="acc-body">
+    <div class="acc-inner">
+      <div class="rule-list">
+        <div class="rule-row">
+          <div class="rule-num">01</div>
+          <div>
+            <div class="rule-name">초기 불량</div>
+            <div class="rule-desc">제품 수령 직후 로그인이 되지 않거나, 계정 내용물이 없거나 부족한 경우 초기 불량으로 간주되며 <strong>교체 가능</strong>합니다.</div>
+          </div>
+        </div>
+        <div class="rule-row">
+          <div class="rule-num">02</div>
+          <div>
+            <div class="rule-name">로그인 불가 계정 <span class="warn-tag">녹화 필수</span></div>
+            <div class="rule-desc">로그인 문제 발생 시 구매 후 <strong>최초 로그인 시도 화면을 녹화</strong>하여 제출해야 교체가 가능합니다. 녹화본이 없으면 교체가 불가능합니다.</div>
+          </div>
+        </div>
+        <div class="highlight-row">
+          <div></div>
+          <div class="highlight-body">
+            <div class="rule-name">💳 환불 규정</div>
+            <div class="rule-desc">계좌 환불은 불가능합니다. 특별한 사유로 환불이 필요한 경우 <strong>자판기 잔액으로 환불</strong>됩니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 계정 -->
+<div id="account" class="acc-section fade">
+  <div class="acc-header" onclick="toggle('account')">
+    <div class="acc-label">Account</div>
+    <div class="acc-title">
+      <span class="title-text">계정 <span>관련</span></span>
+      <span class="acc-arrow">▼</span>
+    </div>
+  </div>
+  <div class="acc-body">
+    <div class="acc-inner">
+      <div class="rule-list">
+        <div class="rule-row">
+          <div class="rule-num">01</div>
+          <div>
+            <div class="rule-name">비밀번호 변경 필수 <span class="warn-tag">즉시 필수</span></div>
+            <div class="rule-desc">계정 수령 즉시 <strong>비밀번호 변경 및 이메일 등록/교체</strong>를 반드시 진행해야 합니다.</div>
+          </div>
+        </div>
+        <div class="rule-row">
+          <div class="rule-num">02</div>
+          <div>
+            <div class="rule-name">변경 미실시 시 불이익</div>
+            <div class="rule-desc">변경 없이 사용 후 문제 발생 시 <strong>책임지지 않으며</strong>, 서버 이용이 제한될 수 있습니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 충전 -->
+<div id="charge" class="acc-section fade">
+  <div class="acc-header" onclick="toggle('charge')">
+    <div class="acc-label">Charge</div>
+    <div class="acc-title">
+      <span class="title-text">충전 <span>관련</span></span>
+      <span class="acc-arrow">▼</span>
+    </div>
+  </div>
+  <div class="acc-body">
+    <div class="acc-inner">
+      <div class="rule-list">
+        <div class="rule-row">
+          <div class="rule-num">01</div>
+          <div>
+            <div class="rule-name">입금자명</div>
+            <div class="rule-desc">충전 시 반드시 <strong>본인 이름으로 입금</strong>해야 합니다.</div>
+          </div>
+        </div>
+        <div class="rule-row">
+          <div class="rule-num">02</div>
+          <div>
+            <div class="rule-name">충전 실패 시 <span class="warn-tag">10분 이내</span></div>
+            <div class="rule-desc">충전이 반영되지 않을 경우 <strong>10분 이내 티켓을 열고</strong> 송금 상세 내역을 첨부해야 합니다.</div>
+          </div>
+        </div>
+        <div class="highlight-row">
+          <div></div>
+          <div class="highlight-body">
+            <div class="rule-name">최소 충전 금액</div>
+            <div class="rule-desc">최소 <strong>1,000원</strong>부터 충전 가능합니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 문의 -->
+<div id="inquiry" class="acc-section fade">
+  <div class="acc-header" onclick="toggle('inquiry')">
+    <div class="acc-label">Inquiry</div>
+    <div class="acc-title">
+      <span class="title-text">문의 <span>관련</span></span>
+      <span class="acc-arrow">▼</span>
+    </div>
+  </div>
+  <div class="acc-body">
+    <div class="acc-inner">
+      <div class="rule-list">
+        <div class="rule-row">
+          <div class="rule-num">01</div>
+          <div>
+            <div class="rule-name">문의 시간 <span class="warn-tag">10분 이내</span></div>
+            <div class="rule-desc">계정 문제 발생 시 구매 후 <strong>10분 이내 티켓</strong>을 열어야 합니다.</div>
+          </div>
+        </div>
+        <div class="rule-row">
+          <div class="rule-num">02</div>
+          <div>
+            <div class="rule-name">필수 첨부 사항</div>
+            <div class="rule-desc">문제 상황 설명과 <strong>자판기 구매 내역</strong>을 반드시 첨부해야 합니다.</div>
+          </div>
+        </div>
+        <div class="rule-row">
+          <div class="rule-num">03</div>
+          <div>
+            <div class="rule-name">문의 내용 작성법</div>
+            <div class="rule-desc">계정 정보와 발생한 문제를 <strong>구체적으로</strong> 작성해 주세요. <strong>"교체해주세요"</strong>와 같은 단순 요청은 처리되지 않습니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 STORE.</span>
+  <span>규정은 사전 공지 없이 변경될 수 있습니다.</span>
+</footer>
+
+<script>
+  function toggle(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  const obs = new IntersectionObserver(els => {
+    els.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
